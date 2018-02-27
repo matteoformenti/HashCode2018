@@ -2,11 +2,11 @@ package jdkftw;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Main {
+    private static final String FILE_SIZE = "big";
 
-    public static ArrayList<Slice> slices = new ArrayList<>();
+    private static ArrayList<Slice> slices = new ArrayList<>();
     public static ArrayList<Cell> cells = new ArrayList<>();
     public static Cell[][] pizza;
 
@@ -19,8 +19,7 @@ public class Main {
 
     public static void main(String[] args) {
         //Load dataset
-        String fileSize = "big";
-        LoadDataset.loadDataset(Main.class.getResourceAsStream("in/"+fileSize+".in"));
+        LoadDataset.loadDataset(Main.class.getResourceAsStream("in/"+ FILE_SIZE +".in"));
 
         //Vector combinations
         long coordCalcTime0 = System.nanoTime();
@@ -80,7 +79,7 @@ public class Main {
             outputString.append(sliceR[0]).append(" ").append(sliceC[0]).append(" ").append(sliceR[1]).append(" ").append(sliceC[1]).append("\n");
         }
         System.out.println("Output created");
-        File output = new File(fileSize+".out");
+        File output = new File(FILE_SIZE +".out");
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(output));
             bufferedWriter.write(outputString.toString());

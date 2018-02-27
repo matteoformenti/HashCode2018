@@ -60,9 +60,7 @@ public class Slice {
 
     private void reset() {
         cells.clear();
-        cells.forEach(cell -> {
-            cells.remove(cell);
-        });
+        cells.forEach(cells::remove);
         countT = 0;
         countM = 0;
         tot = 0;

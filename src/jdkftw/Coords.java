@@ -1,7 +1,5 @@
 package jdkftw;
 
-import java.util.ArrayList;
-
 public class Coords {
     private int r;
     private int c;
