@@ -16,7 +16,7 @@ public class Slice {
     }
 
     public boolean start() {
-        for (int i = Main.coordCombinations.length-1; i >= 0; i--){
+        for (int i = 0; i < Main.coordCombinations.length; i++){
             for (Coords coord : Main.coordCombinations[i].getCoords(startCell.canGoUp(), startCell.canGoRight(), startCell.canGoDown(), startCell.canGoLeft())) {
                 if (fill(coord.getR(), coord.getC()))
                     if (isValid()) {

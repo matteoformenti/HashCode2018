@@ -17,7 +17,7 @@ public class Main {
 
     public static void main(String[] args) {
         //Load dataset
-        LoadDataset.loadDataset(Main.class.getResourceAsStream("in/small.in"));
+        LoadDataset.loadDataset(Main.class.getResourceAsStream("in/big.in"));
 
         //Vector combinations
         long coordCalcTime0 = System.nanoTime();
