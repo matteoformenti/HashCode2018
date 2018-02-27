@@ -19,7 +19,7 @@ public class Main {
 
     public static void main(String[] args) {
         //Load dataset
-        String fileSize = "example";
+        String fileSize = "big";
         LoadDataset.loadDataset(Main.class.getResourceAsStream("in/"+fileSize+".in"));
 
         //Vector combinations
