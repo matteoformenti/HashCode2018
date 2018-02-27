@@ -12,15 +12,17 @@ public class Slice {
 
     Slice(Cell startCell) {
         this.startCell = startCell;
+        startCell.analyzed = true;
         add(startCell);
     }
 
     public boolean start() {
-        for (int i = 0; i < Main.coordCombinations.length; i++){
+        if (startCell.c == 6 && startCell.r == 0)
+            System.out.println("eccomi");
+        for (int i = 0; i < Main.coordCombinations.length; i++) {
             for (Coords coord : Main.coordCombinations[i].getCoords(startCell.canGoUp(), startCell.canGoRight(), startCell.canGoDown(), startCell.canGoLeft())) {
                 if (fill(coord.getR(), coord.getC()))
                     if (isValid()) {
-                        //System.out.println(coord.getR()+","+coord.getC());
                         validateSlice();
                         return true;
                     }
@@ -31,14 +33,16 @@ public class Slice {
 
     private boolean fill(int r, int c) {
         int sR = startCell.r, sC = startCell.c;
-        if (sR+r < 0 || sC+c < 0 || sR+r > Main.R-1 || sC+c > Main.C-1)
+        if (sR + r < 0 || sC + c < 0 || sR + r > Main.R || sC + c > Main.C)
             return false;
         for (int nR = 0; nR < r; nR++)
-            for (int nC =  0; nC < c; nC++) {
-                if (startCell.c != sC+nC || startCell.r != sR+nR) {
+            for (int nC = 0; nC < c; nC++) {
+                if (startCell.c != sC + nC || startCell.r != sR + nR) {
                     Cell cell = Main.pizza[sR + nR][sC + nC];
-                    if (cell.owned)
+                    if (cell.owned) {
+                        reset();
                         return false;
+                    }
                     add(cell);
                 }
             }
@@ -54,41 +58,55 @@ public class Slice {
         cells.add(c);
     }
 
-    public void reset() {
+    private void reset() {
         cells.clear();
+        cells.forEach(cell -> {
+            cells.remove(cell);
+        });
         countT = 0;
         countM = 0;
         tot = 0;
         add(startCell);
     }
 
-    private boolean isValid() {
+    public boolean isValid() {
         int countLT = 0;
         int countLM = 0;
-        int minC = 0, minR = 0, maxC = 0, maxR = 0;
         for (Cell c : cells) {
             if (c.type == 'T')
                 countLT++;
             else
                 countLM++;
-            if (c.c < minC)
-                minC = c.c;
-            if (c.c > maxC)
-                maxC = c.c;
-            if (c.r < minR)
-                minR = c.r;
-            if (c.r > maxR)
-                maxR = c.r;
         }
-        boolean valid = true;
-        for (Cell c : cells)
-            if ((c.c < minC || c.c > maxC) || (c.r < minR || c.r > maxR))
-                valid = false;
-        return countLM >= Main.L && countLT >= Main.L && cells.size() <= Main.H && valid;
+        return countLM >= Main.L && countLT >= Main.L && cells.size() <= Main.H;
     }
 
     private void validateSlice() {
         for (Cell c : cells)
             c.owned = true;
+    }
+
+    public int[] getMaxMinC() {
+        int cMin = Main.C;
+        int cMax = -1;
+        for (Cell c : cells) {
+            if (c.c < cMin)
+                cMin = c.c;
+            if (c.c > cMax)
+                cMax = c.c;
+        }
+        return new int[]{cMin, cMax};
+    }
+
+    public int[] getMaxMinR() {
+        int rMin = Main.R;
+        int rMax = -1;
+        for (Cell c : cells) {
+            if (c.r < rMin)
+                rMin = c.r;
+            if (c.r > rMax)
+                rMax = c.r;
+        }
+        return new int[]{rMin, rMax};
     }
 }

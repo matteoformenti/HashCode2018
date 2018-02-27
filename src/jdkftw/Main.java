@@ -1,6 +1,8 @@
 package jdkftw;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Main {
 
@@ -17,7 +19,8 @@ public class Main {
 
     public static void main(String[] args) {
         //Load dataset
-        LoadDataset.loadDataset(Main.class.getResourceAsStream("in/big.in"));
+        String fileSize = "example";
+        LoadDataset.loadDataset(Main.class.getResourceAsStream("in/"+fileSize+".in"));
 
         //Vector combinations
         long coordCalcTime0 = System.nanoTime();
@@ -51,6 +54,39 @@ public class Main {
 
         for (Slice slice : slices) {
             tot += slice.cells.size();
+        }
+        System.out.println("Starting test");
+        boolean[][] mat2 = new boolean[R][C];
+        for (int i = 0; i < R; i++) {
+            for (int k = 0; k < C; k++)
+                mat2[i][k] = false;
+        }
+        for (Slice slice : slices) {
+            for (Cell c : slice.cells) {
+                if (mat2[c.r][c.c])
+                    System.out.println("Overlapping slices");
+                mat2[c.r][c.c] = true;
+            }
+            if (!slice.isValid())
+                System.out.println("Slice non valid");
+        }
+        System.out.println("Test ended");
+
+        System.out.println("Preparing output");
+        StringBuilder outputString = new StringBuilder(slices.size() + "\n");
+        for (Slice slice : slices) {
+            int[] sliceR = slice.getMaxMinR();
+            int[] sliceC = slice.getMaxMinC();
+            outputString.append(sliceR[0]).append(" ").append(sliceC[0]).append(" ").append(sliceR[1]).append(" ").append(sliceC[1]).append("\n");
+        }
+        System.out.println("Output created");
+        File output = new File(fileSize+".out");
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(output));
+            bufferedWriter.write(outputString.toString());
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

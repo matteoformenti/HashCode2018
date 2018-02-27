@@ -15,10 +15,10 @@ public class CoordCombinations {
         for (int r = 1; r <= dimension; r++)
             for (int c = 1; c <= dimension; c++)
                 if (r * c == dimension) {
-                    coords.add(new Coords(r, c));
-                    coords.add(new Coords(r, -1 * c));
-                    coords.add(new Coords(-1 * r, -1 * c));
                     coords.add(new Coords(-1 * r, c));
+                    coords.add(new Coords(-1 * r, -1 * c));
+                    coords.add(new Coords(r, -1 * c));
+                    coords.add(new Coords(r, c));
                 }
     }
 
@@ -32,25 +32,32 @@ public class CoordCombinations {
             if (coord.getR() < 0 && coord.getC() == 1) {
                 if (upwards)
                     out.add(coord);
-            } else if (coord.getR() < 0 && coord.getC() > 0) {
+            }
+            if (coord.getR() < 0 && coord.getC() > 0) {
                 if (upwards && rightwards)
                     out.add(coord);
-            } else if (coord.getR() == 1 && coord.getC() > 0) {
+            }
+            if (coord.getR() == 1 && coord.getC() > 0) {
                 if (rightwards)
                     out.add(coord);
-            } else if (coord.getR() > 0 && coord.getC() > 0) {
+            }
+            if (coord.getR() > 0 && coord.getC() > 0) {
                 if (downwards && rightwards)
                     out.add(coord);
-            } else if (coord.getR() > 0 && coord.getC() == 0) {
+            }
+            if (coord.getR() > 0 && coord.getC() == 1) {
                 if (downwards)
                     out.add(coord);
-            } else if (coord.getR() < 0 && coord.getC() > 0) {
+            }
+            if (coord.getR() < 0 && coord.getC() > 0) {
                 if (downwards && leftwards)
                     out.add(coord);
-            } else if (coord.getR() == 1 && coord.getC() < 0) {
+            }
+            if (coord.getR() == 1 && coord.getC() < 0) {
                 if (leftwards)
                     out.add(coord);
-            } else if (coord.getR() < 0 && coord.getC() < 0) {
+            }
+            if (coord.getR() < 0 && coord.getC() < 0) {
                 if (upwards && leftwards)
                     out.add(coord);
             }

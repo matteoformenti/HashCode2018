@@ -5,6 +5,7 @@ public class Cell {
     public int c;
     public boolean owned;
     public char type;
+    public boolean analyzed;
 
     public Cell(int r, int c, char type) {
         this.r = r;
